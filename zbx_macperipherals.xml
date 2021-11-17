@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zabbix_export>
+    <version>5.0</version>
+    <date>2021-11-17T19:53:10Z</date>
+    <groups>
+        <group>
+            <name>Templates</name>
+        </group>
+    </groups>
+    <templates>
+        <template>
+            <template>Mac Peripheral Battery Levels</template>
+            <name>Mac Peripheral Battery Levels</name>
+            <groups>
+                <group>
+                    <name>Templates</name>
+                </group>
+            </groups>
+            <applications>
+                <application>
+                    <name>Battery</name>
+                </application>
+            </applications>
+            <items>
+                <item>
+                    <name>Keyboard Battery Level</name>
+                    <key>mac.peripheral.battery.keyboard</key>
+                    <delay>3h</delay>
+                    <units>%</units>
+                    <applications>
+                        <application>
+                            <name>Battery</name>
+                        </application>
+                    </applications>
+                    <preprocessing>
+                        <step>
+                            <type>XMLPATH</type>
+                            <params>/plist/array/dict[{$KBDICT}]/integer[2]</params>
+                        </step>
+                    </preprocessing>
+                </item>
+                <item>
+                    <name>Trackpad Battery Level</name>
+                    <key>mac.peripheral.battery.trackpad</key>
+                    <delay>3h</delay>
+                    <units>%</units>
+                    <applications>
+                        <application>
+                            <name>Battery</name>
+                        </application>
+                    </applications>
+                    <preprocessing>
+                        <step>
+                            <type>XMLPATH</type>
+                            <params>/plist/array/dict[{$TPDICT}]/integer[2]</params>
+                        </step>
+                    </preprocessing>
+                </item>
+            </items>
+            <macros>
+                <macro>
+                    <macro>{$KBDICT}</macro>
+                    <value>1</value>
+                    <description>XML Dict for Keyboard</description>
+                </macro>
+                <macro>
+                    <macro>{$TBDICT}</macro>
+                    <value>2</value>
+                    <description>XML Dict for Trackpad</description>
+                </macro>
+            </macros>
+        </template>
+    </templates>
+</zabbix_export>
