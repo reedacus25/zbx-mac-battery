@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>5.0</version>
-    <date>2021-11-17T19:53:10Z</date>
+    <date>2021-11-17T22:10:47Z</date>
     <groups>
         <group>
             <name>Templates</name>
@@ -35,9 +35,18 @@
                     <preprocessing>
                         <step>
                             <type>XMLPATH</type>
-                            <params>/plist/array/dict[{$KBDICT}]/integer[2]</params>
+                            <params>number(/plist/array/dict[{$KBDICT}]/integer[2])</params>
                         </step>
                     </preprocessing>
+                    <triggers>
+                        <trigger>
+                            <expression>{avg(5)}&lt;20</expression>
+                            <recovery_mode>RECOVERY_EXPRESSION</recovery_mode>
+                            <recovery_expression>{last(#5)}&gt;80</recovery_expression>
+                            <name>Keyboard Battery Low</name>
+                            <priority>INFO</priority>
+                        </trigger>
+                    </triggers>
                 </item>
                 <item>
                     <name>Trackpad Battery Level</name>
@@ -52,9 +61,18 @@
                     <preprocessing>
                         <step>
                             <type>XMLPATH</type>
-                            <params>/plist/array/dict[{$TPDICT}]/integer[2]</params>
+                            <params>number(/plist/array/dict[{$TPDICT}]/integer[2])</params>
                         </step>
                     </preprocessing>
+                    <triggers>
+                        <trigger>
+                            <expression>{avg(5)}&lt;20</expression>
+                            <recovery_mode>RECOVERY_EXPRESSION</recovery_mode>
+                            <recovery_expression>{last(#5)}&gt;80</recovery_expression>
+                            <name>Trackpad Battery Low</name>
+                            <priority>INFO</priority>
+                        </trigger>
+                    </triggers>
                 </item>
             </items>
             <macros>
@@ -64,7 +82,7 @@
                     <description>XML Dict for Keyboard</description>
                 </macro>
                 <macro>
-                    <macro>{$TBDICT}</macro>
+                    <macro>{$TPDICT}</macro>
                     <value>2</value>
                     <description>XML Dict for Trackpad</description>
                 </macro>
